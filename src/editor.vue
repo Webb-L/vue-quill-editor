@@ -110,7 +110,7 @@
 
           // Set editor content
           if (this.value || this.content) {
-            this.quill.pasteHTML(this.value || this.content)
+            this.pasteHTML(this.value || this.content)
           }
 
           // Disabled editor
@@ -141,6 +141,13 @@
           // Emit ready event
           this.$emit('ready', this.quill)
         }
+      },
+      // HTML to Quill Delta
+      pasteHTML(html) {
+        this.quill.setContents(this.quill.clipboard.convert({
+          html: html,
+          text: '\n'
+        }))
       }
     },
     watch: {
@@ -149,7 +156,7 @@
         if (this.quill) {
           if (newVal && newVal !== this._content) {
             this._content = newVal
-            this.quill.pasteHTML(newVal)
+            this.pasteHTML(newVal)
           } else if(!newVal) {
             this.quill.setText('')
           }
@@ -160,7 +167,7 @@
         if (this.quill) {
           if (newVal && newVal !== this._content) {
             this._content = newVal
-            this.quill.pasteHTML(newVal)
+            this.pasteHTML(newVal)
           } else if(!newVal) {
             this.quill.setText('')
           }
